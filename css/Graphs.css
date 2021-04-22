@@ -1,0 +1,215 @@
+/*
+Background color: #151515(Light Black)
+Main color: #A63D40(Light Red)
+Secondary color: #5e292b(Dark red)
+*/
+
+body {
+    background-color: #f8efef;
+}
+
+/* Start: nav-bar */
+.nav-bar {
+    margin: auto;
+    color: #fff;
+}
+.topnav {
+  overflow: hidden;
+  background-color: #A63D40;
+  position: relative;
+}
+
+.topnav #myLinks {
+  font-size: 17px;
+  color: black;
+  display: none;
+}
+
+.topnav a {
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.topnav a.icon {
+  background: #A63D40;
+  color: white;
+  display: block;
+  position: absolute;
+  padding: 20px 25px 20px 25px;
+  right: 0;
+  top: 0;
+}
+
+.topnav a:hover {
+  background-color: #5e292b;
+  color: white;
+}
+
+.active {
+  background-color: #151515;
+  font-size: 24px;
+  color: #fff;
+}
+/* End: nav-bar */
+
+/* Start: background(image) */
+.background {
+        position: relative;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2)), url('../media/covid-19.jpg');
+        height: 20vh;
+        background-size: cover;
+        background-position: center;
+        text-align: center;
+}
+.background-text {
+  color: #FFF;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+}
+/* End: background(image) */
+
+/* Start: cards */
+.grid-containers {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, 325px);
+    grid-gap: 40px;
+    color: #FFF;
+}
+.grid-items {
+    background-color: #A63D40;
+    padding: 40px;
+    padding-bottom: 25px;
+    border-radius: 15px;
+}
+
+.grid-items:hover {
+    background-color: #5e292b;
+}
+.grid-items header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.grid-items i {
+    color: #FFFFFF;
+    font-size: 5rem;
+    margin-bottom: 15px;
+}
+.grid-items p {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+/* End: cards */
+
+/* Start: Footer */
+footer {
+    margin-top: 30px;
+    width: 100%;
+    padding: 25px;
+    text-align: center;
+    background-color: #5e292b;
+    color: #FFF;
+  }
+/* End: Footer */
+
+.flex-container {
+  display: flex;
+}
+
+.flex-child {
+  flex: 1;
+  border: 2px solid yellow;
+}  
+
+.flex-child:first-child {
+  margin-right: 20px;
+} 
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-gap: 20px;
+}
+
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+[class*="col-"] {
+  float: left;
+  padding: 15px;
+  border: 1px solid red;
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.row{
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 0%;
+  padding-bottom: 2.5%;
+}
+
+/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+   .modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('http://i.stack.imgur.com/FhHRx.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading .modal {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+    display: block;
+}
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+bottom: .5em;
+}
