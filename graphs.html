@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="css/Graphs.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <title>Home</title>
 </head>
 
@@ -26,7 +28,7 @@
                 <a href="vaccine.html">Vaccine Information</a>
 
             </div>
-            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <a href="javascript:void(0);" class="icon" onclick="navbarClick()">
                 <i class="fa fa-bars"></i>
             </a>
         </div>
@@ -42,49 +44,238 @@
     <button id="testButton2">Weekly Average</button> -->
 
     <div class="row">
+
+        <!-- 25% -->
         <div class="col-3">
             <form name="filterForm">
-                <!-- <div class="form-group">
-                  <label for="exampleFormControlInput1">Email address</label>
-                  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-                </div> -->
-
                 <h2>
                     <center>Filters</center>
                 </h2>
+<!-- 
+                <button id="testButton" type="button" onclick="test()">Test Button</button>
+                <button id="testButton2" type="button" onclick="test2()">Test Button 2</button> -->
+
+                <center><button id="submitButton" type="button" class="btn btn-danger"
+                        onclick="Submit()">Update</button></center>
 
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">Select US State</label>
-                    <select class="form-control" id="USStateSelect" onchange="OnUSStateSelectChange(this)">
+
+                    <div id="graphModal">
+                        <h5>Graph Display:</h5>
+                        <input type="radio" id="radioCases" name="radioChoices" value="cases">
+                        <label for="radioCases" style="margin-right: 5%;">Cases</label>
+                        <br>
+                        <input type="radio" id="radioDeaths" name="radioChoices" value="deaths">
+                        <label for="radioDeaths">Deaths</label>
+                    </div>
+                    <br>
+                    <br>
+
+                    <div id="dateModal">
+                        <h5>Date Range:</h5>
+                        <label for="start">Start:</label>
+
+                        <input type="date" id="startDate" name="trip-start" value="2020-01-01" min="2020-01-01"
+                            max="2021-12-31">
+
+                        <label for="end">End:</label>
+
+                        <input type="date" id="endDate" name="trip-start" value="2021-12-31" min="2020-01-01"
+                            max="2021-12-31">
+                    </div>
+
+                    <br>
+
+                    <label for="exampleFormControlSelect1" style="margin-top: 5%;">Select US State</label>
+                    <select class="form-control" id="USStateSelect">
                         <option>ALL</option>
                     </select>
 
-                    <input type="radio" id="radioCases" name="radioChoices" value="cases" onclick="OnCasesClick()">
-                    <label for="radioCases">Cases</label><br>
-                    <input type="radio" id="radioDeaths" name="radioChoices" value="deaths" onclick="OnDeathsClick()">
-                    <label for="radioDeaths">Deaths</label><br>
-                   
+                    <div id="FirstStateModal">
+
+                        <div class="card" style="width: 45%; float:left; margin: 2%;">
+                            <div class="card-body">
+                                <h5 class="card-title">Highest Daily Cases</h5>
+                                <p id="state1CasesDate" class="card-text">Date: 0000-00-00</p>
+                                <p id="state1Cases" class="card-text">Cases: 00000</p>
+                            </div>
+                        </div>
+
+                        <div class="card" style="width: 45%; float:left; margin: 2%;">
+                            <div class="card-body">
+                                <h5 class="card-title">Highest Daily Deaths</h5>
+                                <p id="state1DeathsDate" class="card-text">Date: 0000-00-00</p>
+                                <p id="state1Deaths" class="card-text">Cases: 00000</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label for="exampleFormControlSelect2" style="margin-top: 5%;">Select 2nd US State</label>
+                    <select class="form-control" id="USStateSelect2">
+                        <option>---</option>
+                        <option>ALL</option>
+                    </select>
+
+                    <div id="SecondStateModal">
+
+                        <div class="card" style="width: 45%; float:left; margin: 2%;">
+                            <div class="card-body">
+                                <h5 class="card-title">Highest Daily Cases</h5>
+                                <p id="state2CasesDate" class="card-text">Date: 0000-00-00</p>
+                                <p id="state2Cases" class="card-text">Cases: 00000</p>
+                            </div>
+                        </div>
+
+                        <div class="card" style="width: 45%; float:left; margin: 2%;">
+                            <div class="card-body">
+                                <h5 class="card-title">Highest Daily Deaths</h5>
+                                <p id="state2DeathsDate" class="card-text">Date: 0000-00-00</p>
+                                <p id="state2Deaths" class="card-text">Cases: 00000</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <!-- <div class="form-group">
-                  <label for="exampleFormControlSelect2">Example multiple select</label>
-                  <select multiple class="form-control" id="exampleFormControlSelect2">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="exampleFormControlTextarea1">Example textarea</label>
-                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </div> -->
             </form>
-        </div> <!-- 25% -->
-        <div class="col-9">
-            <canvas id="line-chart" width="800" height="450"></canvas>
-        </div> <!-- 75% -->
+        </div>
+
+        <!-- 75% -->
+        <div class="col-6">
+            <h2>
+                <center>Graph Visualization</center>
+            </h2>
+            <canvas id="line-chart" width="100%" height="50%"></canvas>
+
+            <br>
+            <div id="countyModal">
+                <h2>
+                    <center>County Breakdown</center>
+                </h2>
+
+                <table id="dtDynamicVerticalScrollExample" class="table table-striped table-bordered table-sm"
+                    cellspacing="0" width="100%" height="50%">
+                    <thead>
+                        <tr>
+                            <th class="th-sm">County
+                            </th>
+                            <th class="th-sm">Total Cases
+                            </th>
+                            <th class="th-sm">Total Deaths
+                            </th>
+                            <th class="th-sm">Death Rate
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr>
+                            <td>Test County</td>
+                            <td>00000</td>
+                            <td>00000</td>
+                            <td>3.3%</td>
+                        </tr> -->
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>County
+                            </th>
+                            <th>Total Cases
+                            </th>
+                            <th>Total Deaths
+                            </th>
+                            <th>Death Rate
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <!-- 25% -->
+        <div class="col-3">
+            <h2>
+                <center>High Scores</center>
+            </h2>
+            <br>
+            <h4>Highest Overall Covid-19 Cases</h4>
+            <table id="highScoresCases" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Total Cases</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="hsc1">
+                        <th scope="row">1</th>
+                        <td>California</td>
+                        <td class="count">0</td>
+                    </tr>
+                    <tr id="hsc2">
+                        <th scope="row">2</th>
+                        <td>Texas</td>
+                        <td class="count">0</td>
+                    </tr>
+                    <tr id="hsc3">
+                        <th scope="row">3</th>
+                        <td>Florida</td>
+                        <td class="count">0</td>
+                    </tr>
+                    <tr id="hsc4">
+                        <th scope="row">4</th>
+                        <td>New York</td>
+                        <td class="count">0</td>
+                    </tr>
+                    <tr id="hsc5">
+                        <th scope="row">5</th>
+                        <td>Illinois</td>
+                        <td class="count">0</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <h4>Highest Overall Covid-19 Deaths</h4>
+            <table id="highScoresDeaths" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">States</th>
+                        <th scope="col">Total Deaths</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="hsd1">
+                        <th scope="row">1</th>
+                        <td>California</td>
+                        <td class="count">0</td>
+                    </tr>
+                    <tr id="hsd2">
+                        <th scope="row">2</th>
+                        <td>New York</td>
+                        <td class="count">0</td>
+                    </tr>
+                    <tr id="hsd3">
+                        <th scope="row">3</th>
+                        <td>Texas</td>
+                        <td class="count">0</td>
+                    </tr>
+                    <tr id="hsd4">
+                        <th scope="row">4</th>
+                        <td>Florida</td>
+                        <td class="count">0</td>
+                    </tr>
+                    <tr id="hsd5">
+                        <th scope="row">5</th>
+                        <td>Pennsylvania</td>
+                        <td class="count">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+    </div>
+
+
     <div class="modal">
         <!-- Place at bottom of page -->
     </div>
@@ -92,54 +283,8 @@
 
     </div>
 
-    </script> -->
-    <!-- <div class="grid-containers">
-        <div class=grid-items>
-            <header>
-                <a href="graphs.html">
-                    <i class="fa fa-search"></i>
-                </a>
-                <h1 class="fs-2">Graphs</h1>
-            </header>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos recusandae enim doloribus vitae id reprehenderit obcaecati eius necessitatibus odit.</p>
-        </div>
-        <div class=grid-items>
-            <header>
-                <a href="stats.html">
-                    <i class="fa fa-map-marker"></i>
-                </a>
-                <h1 class="fs-2">Stats</h1>
-            </header>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos recusandae enim doloribus vitae id reprehenderit obcaecati eius necessitatibus odit.</p>
-        </div>
-        <div class=grid-items>
-            <header>
-                <a href="history.html">
-                    <i class="fa fa-cloud"></i>
-                </a>
-                <h1 class="fs-2">History</h1>
-            </header>
-            <p>We have so much data to offer our users. Find what ever data you wish for by visiting our storage section that contains information about covid cases.</p>
-        </div>
-        <div class=grid-items>
-            <header>
-                <a href="externalLinks.html">
-                    <i class="fa fa-users"></i>
-                </a>
-                <h1 class="fs-2">External Links</h1>
-            </header>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos recusandae enim doloribus vitae id reprehenderit obcaecati eius necessitatibus odit.</p>
-        </div>
-        <div class=grid-items>
-            <header>
-                <a href="vaccine.html">
-                    <i class="fa fa-envelope"></i>
-                </a>
-                <h1 class="fs-2">Vaccine Information</h1>
-            </header>
-            <p>Contact our support team if you are expeirencing any problems with our site. We are on call 24/7 and we are obligated to help out our customers.</p>
-        </div>
-    </div> -->
+    </script>
+
     <footer>&copy All Rights Reserved | Group Five</footer>
 </body>
 <script src="js/Graphs.js"></script>
