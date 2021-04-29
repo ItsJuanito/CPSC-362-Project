@@ -159,18 +159,18 @@ function GetUSACovidCasesWeeklyAverage(datasetIndex = 0) {
       if (datasetIndex == 0) {
         //Update State 1
         $("#state1CasesDate").text("Date: " + topCasesDate);
-        $("#state1Cases").text("Cases: " + topCasesCount);
+        $("#state1Cases").text("Cases: " + NumberWithCommas(topCasesCount));
 
         $("#state1DeathsDate").text("Date: " + topDeathsDate);
-        $("#state1Deaths").text("Deaths: " + topDeathsCount);
+        $("#state1Deaths").text("Deaths: " + NumberWithCommas(topDeathsCount));
       }
       else {
         //Update State 2
         $("#state2CasesDate").text("Date: " + topCasesDate);
-        $("#state2Cases").text("Cases: " + topCasesCount);
+        $("#state2Cases").text("Cases: " + NumberWithCommas(topCasesCount));
 
         $("#state2DeathsDate").text("Date: " + topDeathsDate);
-        $("#state2Deaths").text("Deaths: " + topDeathsCount);
+        $("#state2Deaths").text("Deaths: " + NumberWithCommas(topDeathsCount));
       }
 
       //Set Graph Properties
@@ -272,24 +272,26 @@ function GetUSACovidDeathsWeeklyAverage(datasetIndex = 0) {
       if (datasetIndex == 0) {
         //Update State 1
         $("#state1CasesDate").text("Date: " + topCasesDate);
-        $("#state1Cases").text("Cases: " + topCasesCount);
+        $("#state1Cases").text("Cases: " + NumberWithCommas(topCasesCount));
 
         $("#state1DeathsDate").text("Date: " + topDeathsDate);
-        $("#state1Deaths").text("Deaths: " + topDeathsCount);
+        $("#state1Deaths").text("Deaths: " + NumberWithCommas(topDeathsCount));
       }
       else {
         //Update State 2
         $("#state2CasesDate").text("Date: " + topCasesDate);
-        $("#state2Cases").text("Cases: " + topCasesCount);
+        $("#state2Cases").text("Cases: " + NumberWithCommas(topCasesCount));
 
         $("#state2DeathsDate").text("Date: " + topDeathsDate);
-        $("#state2Deaths").text("Deaths: " + topDeathsCount);
+        $("#state2Deaths").text("Deaths: " + NumberWithCommas(topDeathsCount));
       }
 
       //Set Graph Properties
       if (datasetIndex == 0) {
         GRAPH.options.title.display = true;
         GRAPH.options.title.text = "US Covid Deaths Weekly Average";
+        GRAPH.data.datasets[datasetIndex].label = "USA";
+
       }
       GRAPH.data.datasets[datasetIndex].pointRadius = 3;
       GRAPH.data.labels = weeklyAverageDates;
@@ -377,7 +379,11 @@ function DrawGraphSet1(_labels, _data, _dataLabel, _title, _xAxis, _yAxis) {
         label: _dataLabel, //"US",
         borderColor: "#cd3e3e",
         fill: false
-      }, {}]
+      }, {
+
+        borderColor: "#3c3ccd",
+        fill: false
+      }]
     },
     options: {
       title: {
@@ -437,7 +443,7 @@ function GetTotalCasesOrDeathsForState(state, isCases, field) {
       }
 
       //Update High Scores table row
-      $(field).html(total);
+      $(field).html(NumberWithCommas(total));
 
 
     },
@@ -594,6 +600,13 @@ function Submit() {
     GetUSACovidDeathsWeeklyAverage(1);
     ClearCountyTable();
   }
+  else if (state2Name == "---") {
+    GRAPH.data.datasets[1].data = null;
+      GRAPH.data.datasets[1].label = null;
+      GRAPH.update();
+    ClearStateCards();
+    ClearCountyTable();
+  }
   else {
     //Get date for a specific state
     GetAndDisplayData(isDisplayCases, state2, dateStart, dateEnd, 1);
@@ -630,7 +643,7 @@ function GetAndDisplayData(isDisplayCases, state, dateStart, dateEnd, datasetInd
           var countyDeathRate;
           try {
             if (countyDeaths == 0) {
-              countyDeathRate = 0;
+              countyDeathRate = 0 + '%';
             }
             else {
               //countyDeathRate = countyDeaths/countyCases ;
@@ -638,7 +651,7 @@ function GetAndDisplayData(isDisplayCases, state, dateStart, dateEnd, datasetInd
             }
           }
           catch {
-            countyDeathRate = 0;
+            countyDeathRate = 0 + '%';
           }
           if (countyName != "unassigned" && countyName != "out of al")
             AddCountyTableRow(countyName, countyCases, countyDeaths, countyDeathRate);
@@ -683,18 +696,18 @@ function GetAndDisplayData(isDisplayCases, state, dateStart, dateEnd, datasetInd
       if (datasetIndex == 0) {
         //Update State 1
         $("#state1CasesDate").text("Date: " + topCasesDate);
-        $("#state1Cases").text("Cases: " + topCasesCount);
+        $("#state1Cases").text("Cases: " + NumberWithCommas(topCasesCount));
 
         $("#state1DeathsDate").text("Date: " + topDeathsDate);
-        $("#state1Deaths").text("Deaths: " + topDeathsCount);
+        $("#state1Deaths").text("Deaths: " + NumberWithCommas(topDeathsCount));
       }
       else {
         //Update State 2
         $("#state2CasesDate").text("Date: " + topCasesDate);
-        $("#state2Cases").text("Cases: " + topCasesCount);
+        $("#state2Cases").text("Cases: " + NumberWithCommas(topCasesCount));
 
         $("#state2DeathsDate").text("Date: " + topDeathsDate);
-        $("#state2Deaths").text("Deaths: " + topDeathsCount);
+        $("#state2Deaths").text("Deaths: " + NumberWithCommas(topDeathsCount));
       }
 
       //console.log(dailyCases[dailyCases.length - 1]);
@@ -730,21 +743,21 @@ function GetAndDisplayData(isDisplayCases, state, dateStart, dateEnd, datasetInd
         }
       }
 
-
+      var formattedStateName = ToUpperEachWord(state.value);
 
       //Set Graph Properties
       GRAPH.options.title.display = true;
       if (isDisplayCases) {
-        GRAPH.options.title.text = state.value + " Covid Cases Weekly Average";
+        GRAPH.options.title.text = formattedStateName + " Covid Cases Weekly Average";
         GRAPH.options.scales.yAxes[0].scaleLabel.labelString = "Number of Cases";
       }
       else {
-        GRAPH.options.title.text = state.value + " Covid Deaths Weekly Average";
+        GRAPH.options.title.text = formattedStateName + " Covid Deaths Weekly Average";
         GRAPH.options.scales.yAxes[0].scaleLabel.labelString = "Number of Deaths";
       }
 
       GRAPH.data.datasets[datasetIndex].pointRadius = 3;
-      GRAPH.data.datasets[datasetIndex].label = state.value;
+      GRAPH.data.datasets[datasetIndex].label = formattedStateName;
       GRAPH.data.labels = weeklyAverageDates;
       GRAPH.data.datasets[datasetIndex].data = weeklyAverages;
       GRAPH.update();
@@ -791,4 +804,23 @@ function dateCompare(d1, d2) {
 function test() {
   dateCompare("01/01/2021", "2020/12/31")
   dateCompare("01/01/2021", "01/01/2021")
+}
+
+function ToUpperEachWord(str) {
+  return str.replace(/\w\S*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+
+}
+
+function NumberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function ClearStateCards() {
+  $("#state2CasesDate").text("Date: N/A");
+  $("#state2Cases").text("Cases: 0");
+
+  $("#state2DeathsDate").text("Date: N/A");
+  $("#state2Deaths").text("Deaths: 0");
 }

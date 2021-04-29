@@ -213,3 +213,7 @@ table.dataTable thead .sorting_desc_disabled:after,
 table.dataTable thead .sorting_desc_disabled:before {
 bottom: .5em;
 }
+
+tr:hover {
+  background: rgb(182, 137, 137) !important;
+}
