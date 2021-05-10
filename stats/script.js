@@ -24,7 +24,8 @@ function getCasesTotal() {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Credentials':true,
         'Access-Control-Allow-Methods':'GET'
-      })
+      }
+    })
     .then(response => response.json())
     .then(values => {
         nationPoitiveCases.textContent = values[0].positive.toLocaleString()
