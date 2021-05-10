@@ -18,7 +18,7 @@ const country_total_tests = document.querySelector("#country_total_tests")
 let countryMap = new Map()
 
 function getCasesTotal() {
-    fetch("https://api.covidtracking.com/v1/us/daily.json", {mode: "no-cors"})
+    fetch("https://api.covidtracking.com/v1/us/daily.json", {mode: "cors"})
     .then(response => response.json())
     .then(values => {
         nationPoitiveCases.textContent = values[0].positive.toLocaleString()
@@ -62,7 +62,7 @@ function onChange(selectedChoice){
 
 function getStateResult(key) {
     let url = "https://api.covidtracking.com/v1/states/"+key+"/current.json"
-    fetch(url)
+    fetch(url, {mode: "cors"})
     .then(response => response.json())
     .then(values => {
         state_positive.textContent = values.positive.toLocaleString()
