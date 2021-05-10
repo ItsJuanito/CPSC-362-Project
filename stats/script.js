@@ -18,13 +18,12 @@ const country_total_tests = document.querySelector("#country_total_tests")
 let countryMap = new Map()
 
 function getCasesTotal() {
-    fetch("https://api.covidtracking.com/v1/us/daily.json")
+    fetch("https://disease.sh/v3/covid-19/countries/US")
     .then(response => response.json())
     .then(values => {
-        nationPoitiveCases.textContent = values[0].positive.toLocaleString()
-        nationDeaths.textContent = values[0].death.toLocaleString()
-        nationHospitalization.textContent = values[0].hospitalized.toLocaleString()
-        nationTests.textContent = values[0].totalTestResults.toLocaleString()
+        nationPoitiveCases.textContent = values.cases.toLocaleString()
+        nationDeaths.textContent = values.deaths.toLocaleString()
+        nationTests.textContent = values.tests.toLocaleString()
     })
     setSelectOptions()
 }
@@ -48,7 +47,7 @@ function setSelectOptions() {
         countrySelect.append(option)
     }
 
-    getStateResult("al")
+    getStateResult("Alabama")
     getCountryResult("AF")
 }
 
@@ -57,18 +56,17 @@ document.addEventListener("DOMContentLoaded", getCasesTotal)
 function onChange(selectedChoice){
     var selectedStateName = selectedChoice.options[selectedChoice.selectedIndex].text;  //Gets selected value
     var key = getKeyByValue(state_map, selectedStateName);  //Gets the key for the selected value, only works if all values are unique
-    getStateResult(key)
+    getStateResult(selectedStateName)
 }
 
 function getStateResult(key) {
-    let url = "https://api.covidtracking.com/v1/states/"+key+"/current.json"
+    let url = "https://disease.sh/v3/covid-19/states/"+key
     fetch(url)
     .then(response => response.json())
     .then(values => {
-        state_positive.textContent = values.positive.toLocaleString()
-        state_deaths.textContent = values.death.toLocaleString()
-        state_hospitalized.textContent = values.hospitalizedCurrently.toLocaleString()
-        state_total_tests.textContent = values.totalTestResults.toLocaleString()
+        state_positive.textContent = values.cases.toLocaleString()
+        state_deaths.textContent = values.deaths.toLocaleString()
+        state_total_tests.textContent = values.tests.toLocaleString()
     })
 }
 
