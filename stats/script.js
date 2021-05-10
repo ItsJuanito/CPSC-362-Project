@@ -18,14 +18,7 @@ const country_total_tests = document.querySelector("#country_total_tests")
 let countryMap = new Map()
 
 function getCasesTotal() {
-    fetch("https://api.covidtracking.com/v1/us/daily.json", { 
-      method: 'GET',
-      headers:{
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials':true,
-        'Access-Control-Allow-Methods':'GET'
-      }
-    })
+    fetch("https://api.covidtracking.com/v1/us/daily.json", {mode: "no-cors"})
     .then(response => response.json())
     .then(values => {
         nationPoitiveCases.textContent = values[0].positive.toLocaleString()
